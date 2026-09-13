@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>億万長者クリッカー</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% -10%,rgba(255,210,60,.16),transparent 35%),
+    #080b12;
+  color:#fff;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Yu Gothic",
+    sans-serif;
+}
+
+button{
+  font:inherit;
+}
+
+.container{
+  width:min(1100px,100%);
+  margin:auto;
+  padding:16px;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+
+.logo{
+  font-size:20px;
+  font-weight:900;
+}
+
+.logo span{
+  color:#ffd447;
+}
+
+.reset{
+  background:#151b25;
+  color:#8d98a8;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  padding:8px 12px;
+  cursor:pointer;
+}
+
+.hero{
+  text-align:center;
+  padding:25px 15px 30px;
+  background:
+    linear-gradient(145deg,rgba(255,212,71,.12),rgba(255,174,0,.02)),
+    #101620;
+  border:1px solid rgba(255,212,71,.15);
+  border-radius:24px;
+}
+
+.subtitle{
+  color:#8d98a8;
+  font-size:13px;
+}
+
+.money{
+  color:#ffd447;
+  font-size:clamp(42px,10vw,76px);
+  font-weight:900;
+  margin:4px 0;
+}
+
+.income{
+  color:#4ade80;
+  font-weight:800;
+}
+
+.click-area{
+  margin:25px 0 10px;
+  display:flex;
+  justify-content:center;
+}
+
+.earn{
+  width:250px;
+  height:250px;
+  border-radius:50%;
+  border:8px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(circle at 35% 25%,#fff09b,#ffd447 45%,#ffae00);
+  color:#382600;
+  font-size:25px;
+  font-weight:1000;
+  cursor:pointer;
+  box-shadow:
+    0 15px 40px rgba(255,174,0,.25),
+    inset 0 5px 12px rgba(255,255,255,.5);
+  user-select:none;
+  transition:.08s;
+}
+
+.earn:active{
+  transform:scale(.92);
+}
+
+.click-value{
+  color:#8d98a8;
+  font-size:13px;
+}
+
+.progress{
+  margin:18px auto 0;
+  width:min(600px,95%);
+}
+
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  color:#8d98a8;
+  font-size:11px;
+  margin-bottom:6px;
+}
+
+.progress-bg{
+  height:8px;
+  background:#252d38;
+  border-radius:99px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#ffd447,#ffae00);
+  transition:.3s;
+}
+
+.ad{
+  margin:18px 0;
+  min-height:90px;
+  display:grid;
+  place-items:center;
+  border:1px dashed rgba(255,255,255,.08);
+  border-radius:14px;
+  color:#4d5663;
+  font-size:11px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:18px;
+}
+
+.panel{
+  background:#101620;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;
+  padding:17px;
+}
+
+.panel-title{
+  font-weight:900;
+  margin-bottom:12px;
+}
+
+.tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.tab{
+  padding:11px;
+  border:0;
+  border-radius:10px;
+  background:#171e29;
+  color:#8d98a8;
+  cursor:pointer;
+  font-weight:800;
+}
+
+.tab.active{
+  background:#ffd447;
+  color:#342500;
+}
+
+.item{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:12px;
+  background:#151d29;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  margin-bottom:9px;
+}
+
+.item-icon{
+  width:44px;
+  height:44px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  background:rgba(255,212,71,.08);
+  border-radius:11px;
+  font-size:22px;
+}
+
+.item-info{
+  flex:1;
+  min-width:0;
+}
+
+.item-name{
+  font-size:14px;
+  font-weight:900;
+}
+
+.item-desc{
+  color:#8d98a8;
+  font-size:11px;
+  margin-top:3px;
+}
+
+.item-effect{
+  color:#4ade80;
+  font-size:11px;
+  margin-top:3px;
+  font-weight:800;
+}
+
+.item-count{
+  color:#ffd447;
+  font-size:11px;
+  margin-top:2px;
+}
+
+.buy{
+  border:0;
+  border-radius:10px;
+  padding:9px 10px;
+  background:#ffd447;
+  color:#342500;
+  cursor:pointer;
+  font-weight:900;
+  font-size:11px;
+  white-space:nowrap;
+}
+
+.buy:disabled{
+  background:#303845;
+  color:#737d8c;
+  cursor:not-allowed;
+}
+
+.locked{
+  color:#667180;
+  font-size:12px;
+}
+
+.reward{
+  background:#151d29;
+  border:1px solid rgba(74,222,128,.13);
+  border-radius:15px;
+  padding:15px;
+  margin-bottom:12px;
+}
+
+.reward h3{
+  margin:0 0 6px;
+  font-size:14px;
+}
+
+.reward p{
+  margin:0 0 11px;
+  color:#8d98a8;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.reward button{
+  width:100%;
+  border:0;
+  border-radius:10px;
+  padding:11px;
+  background:#4ade80;
+  color:#062c12;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.reward button:disabled{
+  background:#303845;
+  color:#737d8c;
+}
+
+
+.boost-status{
+  color:#ffd447;
+  font-size:11px;
+  margin-top:8px;
+  text-align:center;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.stat{
+  background:#151d29;
+  border-radius:13px;
+  padding:12px;
+}
+
+.stat-label{
+  color:#8d98a8;
+  font-size:10px;
+}
+
+.stat-value{
+  margin-top:4px;
+  font-weight:900;
+}
+
+.share{
+  width:100%;
+  margin-top:12px;
+  padding:11px;
+  background:#17202c;
+  color:white;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:800;
+}
+
+.float{
+  position:fixed;
+  pointer-events:none;
+  color:#ffd447;
+  font-weight:900;
+  z-index:999;
+  animation:float .7s forwards;
+}
+
+@keyframes float{
+  from{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+  to{
+    opacity:0;
+    transform:translateY(-70px) scale(1.15);
+  }
+}
+
+.toast{
+  position:fixed;
+  bottom:22px;
+  left:50%;
+  transform:translate(-50%,20px);
+  background:#fff;
+  color:#111;
+  padding:11px 16px;
+  border-radius:11px;
+  font-size:12px;
+  font-weight:900;
+  opacity:0;
+  transition:.2s;
+  pointer-events:none;
+  z-index:1000;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+footer{
+  text-align:center;
+  color:#505967;
+  padding:25px 0;
+  font-size:10px;
+}
+
+@media(max-width:760px){
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .earn{
+    width:220px;
+    height:220px;
+  }
+
+  .container{
+    padding:11px;
+  }
+
+  .item{
+    padding:10px;
+  }
+
+  .buy{
+    padding:8px;
+  }
+}
+
+/* === 秘密コード：入力を確実に操作可能にする === */
+.secret-code-box #secretCodeInput{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  width:100% !important;
+  height:46px !important;
+  min-height:46px !important;
+  box-sizing:border-box !important;
+  padding:10px 12px !important;
+  margin:0 0 8px 0 !important;
+  background:#ffffff !important;
+  color:#111111 !important;
+  -webkit-text-fill-color:#111111 !important;
+  caret-color:#111111 !important;
+  border:2px solid #ffd447 !important;
+  border-radius:10px !important;
+  outline:none !important;
+  font-family:inherit !important;
+  font-size:18px !important;
+  line-height:24px !important;
+  font-weight:700 !important;
+  pointer-events:auto !important;
+  user-select:text !important;
+  -webkit-user-select:text !important;
+  position:relative !important;
+  z-index:1000 !important;
+}
+.secret-code-box #secretCodeInput::placeholder{
+  color:#777777 !important;
+  -webkit-text-fill-color:#777777 !important;
+  opacity:1 !important;
+}
+.secret-code-box #secretCodeBtn{
+  display:block !important;
+  width:100% !important;
+  height:44px !important;
+  border:0 !important;
+  border-radius:10px !important;
+  background:#ffd447 !important;
+  color:#342500 !important;
+  font-weight:900 !important;
+  cursor:pointer !important;
+  position:relative !important;
+  z-index:1000 !important;
+}
+.secret-code-box #secretCodeBtn:disabled{
+  background:#303845 !important;
+  color:#737d8c !important;
+}
+#secretCodeStatus{
+  min-height:20px !important;
+  margin-top:8px !important;
+  text-align:center !important;
+  color:#ffd447 !important;
+  font-size:12px !important;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <div class="logo">💰 <span>億万長者</span>クリッカー</div>
+  <button class="reset" id="resetBtn">リセット</button>
+</header>
+
+<section class="hero">
+
+  <div class="subtitle">あなたの総資産</div>
+
+  <div class="money" id="money">¥0</div>
+
+  <div class="income" id="income">
+    +¥0 / 秒
+  </div>
+
+  <div class="click-area">
+
+    <button class="earn" id="earnBtn">
+      💰<br>
+      稼ぐ
+    </button>
+
+  </div>
+
+  <div class="click-value" id="clickValue">
+    1クリック +¥1
+  </div>
+
+  <div class="progress">
+
+    <div class="progress-top">
+      <span id="nextGoal">次の目標 ¥100</span>
+      <span id="progressText">0%</span>
+    </div>
+
+    <div class="progress-bg">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+  </div>
+
+</section>
+
+<div class="ad">
+  <!-- admax -->
+  <script src="https://adm.shinobi.jp/s/ff4d44cf6aea082152046830f52cc6ba"></script>
+  <!-- admax -->
+</div>
+
+<div class="grid">
+
+<section class="panel">
+
+  <div class="panel-title">
+    🛒 アップグレード
+  </div>
+
+  <div class="tabs">
+
+    <button
+      class="tab active"
+      id="clickTab">
+      🖱️ クリック強化
+    </button>
+
+    <button
+      class="tab"
+      id="businessTab">
+      🏢 自動収入
+    </button>
+
+  </div>
+
+  <div id="items"></div>
+
+</section>
+
+
+<section class="panel">
+
+  <div class="panel-title">
+    🎁 ボーナス
+  </div>
+<div class="reward secret-code-box">
+  <h3>🔐 秘密のコード</h3>
+  <p>コードを入力すると、1回だけ¥800万もらえます。</p>
+  <input id="secretCodeInput" type="text" inputmode="numeric"
+         autocomplete="off" spellcheck="false"
+         placeholder="コードを入力" aria-label="秘密のコード">
+  <button id="secretCodeBtn" type="button">使う</button>
+  <div id="secretCodeStatus"></div>
+</div>
+
+<div class="reward">
+
+    <h3>💤 おかえりなさい！</h3>
+
+    <p id="offlineText">
+      放置報酬を計算しています...
+    </p>
+
+    <button id="offlineBtn" disabled>
+      放置報酬を受け取る
+    </button>
+
+  </div>
+
+
+  <div class="reward">
+
+    <h3>⚡ 収入ブースト</h3>
+
+    <p>
+      収入を30秒間2倍にします。
+    </p>
+
+    <button id="boostBtn">
+      ⚡ 収入2倍
+    </button>
+
+    <div
+      class="boost-status"
+      id="boostStatus">
+    </div>
+
+  </div>
+
+
+  <div class="panel-title">
+    📊 統計
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-label">
+        総クリック
+      </div>
+
+      <div
+        class="stat-value"
+        id="clicks">
+        0
+      </div>
+    </div>
+
+
+    <div class="stat">
+      <div class="stat-label">
+        最高資産
+      </div>
+
+      <div
+        class="stat-value"
+        id="maxMoney">
+        ¥0
+      </div>
+    </div>
+
+
+    <div class="stat">
+      <div class="stat-label">
+        総収入
+      </div>
+
+      <div
+        class="stat-value"
+        id="totalEarned">
+        ¥0
+      </div>
+    </div>
+
+
+    <div class="stat">
+      <div class="stat-label">
+        プレイ時間
+      </div>
+
+      <div
+        class="stat-value"
+        id="playTime">
+        0分
+      </div>
+    </div>
+
+  </div>
+
+
+  <button
+    class="share"
+    id="shareBtn">
+    𝕏 結果をシェア
+  </button>
+
+</section>
+
+</div>
+
+<footer>
+  © 2026 億万長者クリッカー
+</footer>
+
+</div>
+
+<div
+  class="toast"
+  id="toast">
+</div>
+
+
+<script>
+"use strict";
+
+
+/* =====================================================
+   設定
+===================================================== */
+
+const STORAGE_KEY =
+  "millionaire_clicker_final_v1";
+
+
+/* =====================================================
+   クリック強化アイテム
+===================================================== */
+
+const clickUpgrades = [
+
+  ["🖱️","木製マウス","最低限のクリック装置",10,1],
+
+  ["🖱️","オフィスマウス","普通のマウス",100,5],
+
+  ["🎮","ゲーミングマウス","高速クリック",1000,25],
+
+  ["⌨️","メカニカルキーボード","クリック効率アップ",10000,100],
+
+  ["🔴","ターボボタン","押す力を強化",100000,500],
+
+  ["⚙️","マクロ装置","クリックを自動最適化",1000000,2500],
+
+  ["🤖","AIアシスタント","AIがクリックを補助",10000000,10000],
+
+  ["🖲️","自動クリック装置","高速クリック装置",100000000,50000],
+
+  ["💻","スーパーCPU","超高速処理",1000000000,250000],
+
+  ["🖥️","AIサーバー","巨大な演算能力",10000000000,1000000],
+
+  ["🔮","量子チップ","量子計算を利用",100000000000,5000000],
+
+  ["🌐","超高速ネットワーク","世界中と接続",1000000000000,25000000],
+
+  ["⚛️","量子コンピューター","常識外の処理能力",10000000000000,100000000],
+
+  ["☢️","核融合コンピューター","巨大なエネルギー",100000000000000,500000000],
+
+  ["☀️","ダイソン・コンピューター","恒星エネルギー",1000000000000000,2500000000],
+
+  ["🚀","宇宙演算システム","宇宙規模の処理",10000000000000000,10000000000],
+
+  ["🌌","銀河AI","銀河規模のAI",100000000000000000,50000000000],
+
+  ["🌀","次元エンジン","別次元から資源を取得",1000000000000000000,250000000000],
+
+  ["⏳","タイムマシン","未来の利益を先取り",10000000000000000000,1000000000000],
+
+  ["👑","神のクリック","クリックの概念を超える",100000000000000000000,5000000000000]
+
+];
+
+
+/* =====================================================
+   自動収入アイテム
+===================================================== */
+
+const businesses = [
+
+  ["📰","新聞配達","コツコツ稼ぐ",25,1],
+
+  ["🧑‍💼","アルバイト","小さな収入",100,5],
+
+  ["🥤","自動販売機","24時間稼働",500,20],
+
+  ["🍜","屋台","人気の屋台",2500,100],
+
+  ["🏪","コンビニ","24時間営業",10000,400],
+
+  ["☕","カフェ","人気カフェ",50000,2000],
+
+  ["🍽️","レストラン","大人気レストラン",250000,10000],
+
+  ["📦","ネットショップ","世界中から注文",1000000,50000],
+
+  ["🏢","オフィス","社員が働く",5000000,250000],
+
+  ["💻","IT企業","ネットで大儲け",25000000,1000000],
+
+  ["🏭","工場","大量生産",100000000,5000000],
+
+  ["🏦","銀行","お金がお金を生む",500000000,25000000],
+
+  ["🏙️","不動産会社","土地を支配",2500000000,100000000],
+
+  ["📺","メディア企業","情報を世界へ",10000000000,500000000],
+
+  ["🤖","AI企業","AIが24時間働く",50000000000,2500000000],
+
+  ["🏰","巨大企業","企業帝国",250000000000,10000000000],
+
+  ["🌍","国際企業","世界規模の事業",1000000000000,50000000000],
+
+  ["🚀","宇宙企業","宇宙ビジネス",10000000000000,250000000000],
+
+  ["🌕","月面基地","月資源を独占",100000000000000,1000000000000],
+
+  ["🪐","惑星帝国","惑星そのものを経営",10000000000000000,50000000000000]
+
+];
+
+
+/* =====================================================
+   ゲームデータ
+===================================================== */
+
+function newGame(){
+
+  return {
+
+    money:0,
+
+    totalEarned:0,
+
+    totalClicks:0,
+
+    maxMoney:0,
+
+    clickLevels:
+      Array(clickUpgrades.length).fill(0),
+
+    businessLevels:
+      Array(businesses.length).fill(0),
+
+    lastSaved:Date.now(),
+
+    playSeconds:0,
+
+    boostUntil:0,
+    secretCodeUsed:false
+
+  };
+
+}
+
+
+function loadGame(){
+
+  try{
+
+    const data =
+      localStorage.getItem(STORAGE_KEY);
+
+    if(!data){
+
+      return newGame();
+
+    }
+
+    const saved =
+      JSON.parse(data);
+
+    const fresh =
+      newGame();
+
+    return {
+
+      ...fresh,
+
+      ...saved,
+
+      clickLevels:
+        Array.isArray(saved.clickLevels)
+          ? saved.clickLevels
+          : fresh.clickLevels,
+
+      businessLevels:
+        Array.isArray(saved.businessLevels)
+          ? saved.businessLevels
+          : fresh.businessLevels,
+      secretCodeUsed: saved.secretCodeUsed === true
+
+    };
+
+  }catch(error){
+
+    console.error(error);
+
+    return newGame();
+
+  }
+
+}
+
+
+let game = loadGame();
+
+
+/* =====================================================
+   保存
+===================================================== */
+
+function saveGame(){
+
+  game.lastSaved =
+    Date.now();
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(game)
+  );
+
+}
+
+
+/* =====================================================
+   数字表示
+===================================================== */
+
+function money(value){
+
+  if(!Number.isFinite(value)){
+    return "¥∞";
+  }
+
+  const units = [
+
+    [1e20,"垓"],
+
+    [1e16,"京"],
+
+    [1e12,"兆"],
+
+    [1e8,"億"],
+
+    [1e4,"万"]
+
+  ];
+
+  for(const [number,unit] of units){
+
+    if(Math.abs(value) >= number){
+
+      const n =
+        value / number;
+
+      const digits =
+        Math.abs(n) >= 100
+          ? 0
+          : Math.abs(n) >= 10
+            ? 1
+            : 2;
+
+      return (
+        "¥" +
+        n.toFixed(digits) +
+        unit
+      );
+
+    }
+
+  }
+
+  return (
+    "¥" +
+    Math.floor(value)
+      .toLocaleString("ja-JP")
+  );
+
+}
+
+
+function number(value){
+
+  return Math.floor(value)
+    .toLocaleString("ja-JP");
+
+}
+
+
+/* =====================================================
+   クリック金額
+===================================================== */
+
+function clickValue(){
+
+  let value = 1;
+
+  for(
+    let i=0;
+    i<clickUpgrades.length;
+    i++
+  ){
+
+    value +=
+      clickUpgrades[i][4] *
+      (game.clickLevels[i] || 0);
+
+  }
+
+  return value;
+
+}
+
+
+/* =====================================================
+   毎秒収入
+===================================================== */
+
+function incomePerSecond(){
+
+  let value = 0;
+
+  for(
+    let i=0;
+    i<businesses.length;
+    i++
+  ){
+
+    value +=
+      businesses[i][4] *
+      (game.businessLevels[i] || 0);
+
+  }
+
+  return value;
+
+}
+
+
+function actualIncome(){
+
+  const income =
+    incomePerSecond();
+
+  return Date.now() < game.boostUntil
+    ? income * 2
+    : income;
+
+}
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const moneyEl =
+  document.getElementById("money");
+
+const incomeEl =
+  document.getElementById("income");
+
+const clickValueEl =
+  document.getElementById("clickValue");
+
+const itemsEl =
+  document.getElementById("items");
+
+const clicksEl =
+  document.getElementById("clicks");
+
+const maxMoneyEl =
+  document.getElementById("maxMoney");
+
+const totalEarnedEl =
+  document.getElementById("totalEarned");
+
+const playTimeEl =
+  document.getElementById("playTime");
+
+const offlineTextEl =
+  document.getElementById("offlineText");
+
+const offlineBtn =
+  document.getElementById("offlineBtn");
+
+const boostBtn =
+  document.getElementById("boostBtn");
+
+const boostStatus =
+  document.getElementById("boostStatus");
+
+const progressBar =
+  document.getElementById("progressBar");
+
+const progressText =
+  document.getElementById("progressText");
+
+const nextGoal =
+  document.getElementById("nextGoal");
+
+const toast =
+  document.getElementById("toast");
+const secretCodeInput =
+  document.getElementById("secretCodeInput");
+
+const secretCodeBtn =
+  document.getElementById("secretCodeBtn");
+
+const secretCodeStatus =
+  document.getElementById("secretCodeStatus");
+
+let tab = "click";
+
+
+/* =====================================================
+   アイテム価格
+===================================================== */
+
+function cost(base,level){
+
+  return Math.floor(
+    base *
+    Math.pow(1.15,level)
+  );
+
+}
+
+
+/* =====================================================
+   アイテム解放
+===================================================== */
+
+function unlocked(index,list){
+
+  if(index < 5){
+    return true;
+  }
+
+  if(list === clickUpgrades){
+
+    return (
+      (game.clickLevels[index-1] || 0)
+      >= 1
+    );
+
+  }
+
+  return (
+    (game.businessLevels[index-1] || 0)
+    >= 1
+  );
+
+}
+
+
+/* =====================================================
+   アイテム表示
+===================================================== */
+
+function renderItems(){
+
+  itemsEl.innerHTML = "";
+
+  const list =
+    tab === "click"
+      ? clickUpgrades
+      : businesses;
+
+  for(
+    let i=0;
+    i<list.length;
+    i++
+  ){
+
+    const item =
+      list[i];
+
+    const isOpen =
+      unlocked(i,list);
+
+    const level =
+      tab === "click"
+        ? game.clickLevels[i] || 0
+        : game.businessLevels[i] || 0;
+
+    const div =
+      document.createElement("div");
+
+    div.className = "item";
+
+
+    if(!isOpen){
+
+      div.innerHTML = `
+
+        <div class="item-icon">
+          🔒
+        </div>
+
+        <div class="item-info">
+
+          <div class="item-name">
+            ${item[1]}
+          </div>
+
+          <div class="locked">
+            前のアイテムを1個購入すると解放
+          </div>
+
+        </div>
+
+      `;
+
+    }else{
+
+      const price =
+        cost(item[3],level);
+
+      const effect =
+        tab === "click"
+          ? `1クリック +${money(item[4])}`
+          : `毎秒 +${money(item[4])}`;
+
+      div.innerHTML = `
+
+        <div class="item-icon">
+          ${item[0]}
+        </div>
+
+        <div class="item-info">
+
+          <div class="item-name">
+            ${item[1]}
+          </div>
+
+          <div class="item-desc">
+            ${item[2]}
+          </div>
+
+          <div class="item-effect">
+            ${effect}
+          </div>
+
+          <div class="item-count">
+            所有数：${number(level)}
+          </div>
+
+        </div>
+
+        <button
+          class="buy"
+          data-index="${i}"
+          ${game.money < price ? "disabled":""}
+        >
+          ${money(price)}
+        </button>
+
+      `;
+
+    }
+
+    itemsEl.appendChild(div);
+
+  }
+
+}
+
+
+/* =====================================================
+   UI更新
+===================================================== */
+
+function render(){
+
+  moneyEl.textContent =
+    money(game.money);
+
+  incomeEl.textContent =
+    `+${money(actualIncome())} / 秒`;
+
+  clickValueEl.textContent =
+    `1クリック +${money(clickValue())}`;
+
+  clicksEl.textContent =
+    number(game.totalClicks);
+
+  maxMoneyEl.textContent =
+    money(game.maxMoney);
+
+  totalEarnedEl.textContent =
+    money(game.totalEarned);
+
+
+  const minutes =
+    Math.floor(
+      game.playSeconds / 60
+    );
+
+  const seconds =
+    Math.floor(
+      game.playSeconds % 60
+    );
+
+  playTimeEl.textContent =
+    `${minutes}分 ${seconds}秒`;
+
+
+  renderItems();
+
+  renderBoost();
+
+  renderProgress();
+
+}
+
+
+/* =====================================================
+   お金を増やす
+===================================================== */
+
+function addMoney(amount){
+
+  if(
+    !Number.isFinite(amount) ||
+    amount <= 0
+  ){
+    return;
+  }
+
+  game.money += amount;
+
+  game.totalEarned += amount;
+
+  if(
+    game.money >
+    game.maxMoney
+  ){
+
+    game.maxMoney =
+      game.money;
+
+  }
+
+}
+
+
+/* =====================================================
+   クリック
+===================================================== */
+
+
+/* === 秘密コード === */
+function updateSecretCodeUI(){
+  const used = game.secretCodeUsed === true;
+  secretCodeInput.disabled = used;
+  secretCodeBtn.disabled = used;
+  secretCodeBtn.textContent = used ? "使用済み" : "使う";
+  secretCodeStatus.textContent = used
+    ? "このコードはすでに使用済みです。"
+    : "";
+}
+
+function useSecretCode(){
+  if(game.secretCodeUsed === true) return;
+
+  const code = secretCodeInput.value.trim();
+
+  if(code !== "6344649"){
+    secretCodeStatus.textContent = "❌ 無効なコードです。";
+    return;
+  }
+
+  addMoney(8000000);
+  game.secretCodeUsed = true;
+  secretCodeInput.value = "";
+  saveGame();
+  updateSecretCodeUI();
+  render();
+  secretCodeStatus.textContent = "🎉 ¥800万を獲得しました！";
+  showToast("🎉 秘密のコード成功！ +¥800万");
+}
+
+secretCodeBtn.addEventListener("click", useSecretCode);
+secretCodeInput.addEventListener("keydown", function(event){
+  if(event.key === "Enter"){
+    event.preventDefault();
+    useSecretCode();
+  }
+});
+updateSecretCodeUI();
+
+document
+  .getElementById("earnBtn")
+  .addEventListener(
+    "click",
+    function(event){
+
+      const amount =
+        clickValue();
+
+      addMoney(amount);
+
+      game.totalClicks++;
+
+      const float =
+        document.createElement("div");
+
+      float.className =
+        "float";
+
+      float.textContent =
+        "+" + money(amount);
+
+      float.style.left =
+        event.clientX + "px";
+
+      float.style.top =
+        event.clientY + "px";
+
+      document.body.appendChild(float);
+
+      setTimeout(
+        () => float.remove(),
+        700
+      );
+
+      render();
+
+    }
+  );
+
+
+/* =====================================================
+   購入
+===================================================== */
+
+itemsEl.addEventListener(
+  "click",
+  function(event){
+
+    const button =
+      event.target.closest(".buy");
+
+    if(!button){
+      return;
+    }
+
+    const index =
+      Number(button.dataset.index);
+
+    const list =
+      tab === "click"
+        ? clickUpgrades
+        : businesses;
+
+    const item =
+      list[index];
+
+    const levels =
+      tab === "click"
+        ? game.clickLevels
+        : game.businessLevels;
+
+    const level =
+      levels[index] || 0;
+
+    const price =
+      cost(item[3],level);
+
+    if(game.money < price){
+
+      showToast(
+        "💸 お金が足りません"
+      );
+
+      return;
+
+    }
+
+    game.money -= price;
+
+    levels[index] =
+      level + 1;
+
+    saveGame();
+
+    render();
+
+    showToast(
+      `${item[0]} ${item[1]} Lv.${level+1}`
+    );
+
+  }
+);
+
+
+/* =====================================================
+   タブ
+===================================================== */
+
+document
+  .getElementById("clickTab")
+  .addEventListener(
+    "click",
+    function(){
+
+      tab = "click";
+
+      this.classList.add("active");
+
+      document
+        .getElementById("businessTab")
+        .classList.remove("active");
+
+      renderItems();
+
+    }
+  );
+
+
+document
+  .getElementById("businessTab")
+  .addEventListener(
+    "click",
+    function(){
+
+      tab = "business";
+
+      this.classList.add("active");
+
+      document
+        .getElementById("clickTab")
+        .classList.remove("active");
+
+      renderItems();
+
+    }
+  );
+
+
+/* =====================================================
+   放置報酬
+===================================================== */
+
+function offlineReward(){
+
+  const elapsed =
+    Math.max(
+      0,
+      (Date.now() - game.lastSaved) / 1000
+    );
+
+  const seconds =
+    Math.min(
+      elapsed,
+      8 * 60 * 60
+    );
+
+  return Math.floor(
+    incomePerSecond() *
+    seconds
+  );
+
+}
+
+
+let pendingOffline =
+  offlineReward();
+
+
+if(pendingOffline > 0){
+
+  offlineTextEl.textContent =
+    `${money(pendingOffline)}を獲得できます。`;
+
+  offlineBtn.disabled = false;
+
+}else{
+
+  offlineTextEl.textContent =
+    "まだ放置報酬はありません。";
+
+}
+
+
+offlineBtn.addEventListener(
+  "click",
+  function(){
+
+    if(pendingOffline <= 0){
+      return;
+    }
+
+    addMoney(pendingOffline);
+
+    const reward =
+      pendingOffline;
+
+    pendingOffline = 0;
+
+    offlineBtn.disabled = true;
+
+    offlineTextEl.textContent =
+      "放置報酬を受け取りました！";
+
+    saveGame();
+
+    render();
+
+    showToast(
+      `💰 ${money(reward)} GET!`
+    );
+
+  }
+);
+
+
+/* =====================================================
+   ブースト
+===================================================== */
+
+boostBtn.addEventListener(
+  "click",
+  function(){
+
+    if(
+      Date.now() <
+      game.boostUntil
+    ){
+      return;
+    }
+
+    game.boostUntil =
+      Date.now() + 30000;
+
+    saveGame();
+
+    render();
+
+    showToast(
+      "⚡ 30秒間収入2倍！"
+    );
+
+  }
+);
+
+
+function renderBoost(){
+
+  if(
+    Date.now() <
+    game.boostUntil
+  ){
+
+    const remaining =
+      Math.ceil(
+        (game.boostUntil - Date.now())
+        / 1000
+      );
+
+    boostBtn.disabled = true;
+
+    boostBtn.textContent =
+      `⚡ ブースト中 ${remaining}秒`;
+
+    boostStatus.textContent =
+      "収入が2倍になっています";
+
+  }else{
+
+    boostBtn.disabled = false;
+
+    boostBtn.textContent =
+      "⚡ 収入2倍";
+
+    boostStatus.textContent = "";
+
+  }
+
+}
+
+
+/* =====================================================
+   進捗
+===================================================== */
+
+const goals = [
+
+  [100,"¥100"],
+
+  [1000,"¥1,000"],
+
+  [10000,"¥1万"],
+
+  [100000,"¥10万"],
+
+  [1000000,"¥100万"],
+
+  [10000000,"¥1,000万"],
+
+  [100000000,"¥1億"],
+
+  [10000000000,"¥100億"],
+
+  [1000000000000,"¥1兆"],
+
+  [10000000000000000,"¥1京"]
+
+];
+
+
+function renderProgress(){
+
+  let previous = 0;
+
+  let target =
+    goals[goals.length-1];
+
+  for(const goal of goals){
+
+    if(game.money < goal[0]){
+
+      target = goal;
+
+      break;
+
+    }
+
+    previous = goal[0];
+
+  }
+
+  const range =
+    target[0] - previous;
+
+  const current =
+    game.money - previous;
+
+  const percent =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        current / range * 100
+      )
+    );
+
+  nextGoal.textContent =
+    `次の目標 ${target[1]}`;
+
+  progressText.textContent =
+    percent.toFixed(1) + "%";
+
+  progressBar.style.width =
+    percent + "%";
+
+}
+
+
+/* =====================================================
+   Xシェア
+===================================================== */
+
+document
+  .getElementById("shareBtn")
+  .addEventListener(
+    "click",
+    function(){
+
+      const text =
+        `💰 億万長者クリッカー\n\n` +
+        `総資産：${money(game.money)}\n` +
+        `クリック：${number(game.totalClicks)}回\n` +
+        `毎秒収入：${money(incomePerSecond())}\n\n` +
+        `#億万長者クリッカー`;
+
+      const url =
+        "https://twitter.com/intent/tweet?text=" +
+        encodeURIComponent(text);
+
+      window.open(
+        url,
+        "_blank"
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   トースト
+===================================================== */
+
+let toastTimer;
+
+function showToast(message){
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(
+      function(){
+
+        toast.classList.remove("show");
+
+      },
+      2200
+    );
+
+}
+
+
+/* =====================================================
+   ゲームループ
+===================================================== */
+
+let lastTick =
+  Date.now();
+
+setInterval(
+  function(){
+
+    const now =
+      Date.now();
+
+    let elapsed =
+      (now - lastTick) / 1000;
+
+    elapsed =
+      Math.min(elapsed,5);
+
+    lastTick = now;
+
+    addMoney(
+      actualIncome() *
+      elapsed
+    );
+
+    game.playSeconds +=
+      elapsed;
+
+    render();
+
+  },
+  1000
+);
+
+
+/* =====================================================
+   自動保存
+===================================================== */
+
+setInterval(
+  saveGame,
+  5000
+);
+
+
+window.addEventListener(
+  "beforeunload",
+  saveGame
+);
+
+
+/* =====================================================
+   リセット
+===================================================== */
+
+document
+  .getElementById("resetBtn")
+  .addEventListener(
+    "click",
+    function(){
+
+      if(
+        !confirm(
+          "ゲームデータを全部削除しますか？"
+        )
+      ){
+        return;
+      }
+
+      localStorage.removeItem(
+        STORAGE_KEY
+      );
+
+      game =
+        newGame();
+
+            updateSecretCodeUI();
+
+      pendingOffline = 0;
+
+      offlineBtn.disabled = true;
+
+      offlineTextEl.textContent =
+        "まだ放置報酬はありません。";
+
+      render();
+
+      showToast(
+        "🗑️ データをリセットしました"
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   起動
+===================================================== */
+
+render();
+
+</script>
+
+</body>
+</html>
